@@ -70,7 +70,7 @@ export default function TopBar() {
         <Avatar
           sx={{
             width: 30,
-            height: 30,
+            height: 32,
             fontSize: 13,
           }}
         >
