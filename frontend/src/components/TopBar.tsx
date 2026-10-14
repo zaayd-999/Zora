@@ -10,8 +10,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import StorageIcon from "@mui/icons-material/Storage";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutlineOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
 
-export default function TopBar() {
+interface TopBarProps {
+  isSidebarOpen: boolean;
+  onToggleSidebar: () => void;
+}
+
+export default function TopBar({ isSidebarOpen, onToggleSidebar }: TopBarProps) {
   return (
     <Box
       sx={{
@@ -27,6 +33,15 @@ export default function TopBar() {
     >
       {/* Left side */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton
+          size="small"
+          onClick={onToggleSidebar}
+          aria-label={isSidebarOpen ? "Hide navigation" : "Show navigation"}
+          aria-expanded={isSidebarOpen}
+          title={isSidebarOpen ? "Hide navigation" : "Show navigation"}
+        >
+          <MenuIcon fontSize="small" />
+        </IconButton>
         <StorageIcon fontSize="small" />
 
         <Typography sx={{ fontWeight: 600 }}>
