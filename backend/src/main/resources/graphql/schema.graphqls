@@ -1,3 +1,32 @@
 type Query {
     message: String
+    servers: [Server!]!
+}
+
+input ServerInput {
+    name: String!
+    host: String!
+    port: Int
+    serviceName: String
+    username: String
+    password: String
+}
+
+type Server {
+    id: ID!
+    name: String!
+    host: String!
+    port: Int
+    serviceName: String
+    username: String
+    status: ServerStatus!
+}
+
+enum ServerStatus {
+    CONNECTED
+    NOT_CONNECTED
+}
+
+type Mutation {
+    addServer(input: ServerInput!): Server!
 }
