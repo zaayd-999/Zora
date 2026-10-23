@@ -1,6 +1,58 @@
 type Query {
     message: String
     servers: [Server!]!
+    dashboard(serverId: ID!, range: String = "1h"): DashboardOverview!
+}
+
+type DashboardOverview {
+    server: Server!
+    databaseStatus: String
+    instanceStatus: String
+    databaseName: String
+    containerDatabase: Boolean
+    pluggableDatabases: Int
+    activeSessions: Int
+    tablespaceAllocatedMb: Float
+    tablespaceUsedMb: Float
+    cpuPercent: Float
+    sgaAllocatedMb: Float
+    tablespaces: [TablespaceUsage!]!
+    cpuSamples: [CpuSample!]!
+    metricErrors: [DashboardMetricError!]!
+}
+
+type TableCreationResult {
+    tableName: String!
+    created: Boolean!
+}
+
+type UserCreationResult {
+    username: String!
+    created: Boolean!
+    sessionAccessGranted: Boolean!
+    message: String!
+}
+
+type TablespaceUsage {
+    name: String!
+    allocatedMb: Float
+    usedMb: Float
+    usagePercent: Float
+}
+
+input TableColumnInput {
+    name: String!
+    dataType: String!
+}
+
+type CpuSample {
+    capturedAt: String!
+    cpuPercent: Float!
+}
+
+type DashboardMetricError {
+    metric: String!
+    message: String!
 }
 
 input ServerInput {
@@ -29,4 +81,6 @@ enum ServerStatus {
 
 type Mutation {
     addServer(input: ServerInput!): Server!
+    createOracleTable(serverId: ID!, tableName: String!, columns: [TableColumnInput!]!, adminPassword: String!): TableCreationResult!
+    createOracleUser(serverId: ID!, username: String!, password: String!, adminPassword: String!): UserCreationResult!
 }

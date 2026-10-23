@@ -9,8 +9,9 @@ function App() {
           window.addEventListener('hashchange', updatePath);
           return () => window.removeEventListener('hashchange', updatePath);
      }, []);
-     if (path === '#/oracle' || path === '#/oracle/tables') {
-          return <OraclePage tables={path === '#/oracle/tables'} />;
+     if (path === '#/oracle' || path.startsWith('#/oracle/')) {
+          const view = path === '#/oracle' ? 'overview' : path.slice('#/oracle/'.length);
+          return <OraclePage view={view} />;
      }
      return <ServersPage />;
 }
