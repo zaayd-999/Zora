@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostgresDatabaseManager implements DatabaseConnector<Map<String, Object>> {
+public class PostgresDatabaseManager implements DatabaseConnector<QueryResult,QueryResults> {
 
     private Connection connection;
 
@@ -36,14 +36,14 @@ public class PostgresDatabaseManager implements DatabaseConnector<Map<String, Ob
     }
 
     @Override
-    public List<Map<String, Object>> query(String sql, Object... params) {
+    public QueryResults query(String sql, Object... params) {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             bind(ps, params);
             try (ResultSet rs = ps.executeQuery()) {
-                List<Map<String, Object>> rows = new ArrayList<>();
+                QueryResults rows = new QueryResults();
                 ResultSetMetaData meta = rs.getMetaData();
                 while (rs.next()) {
-                    Map<String, Object> row = new LinkedHashMap<>();
+                    QueryResult row = new QueryResult();
                     for (int i = 1; i <= meta.getColumnCount(); i++) {
                         row.put(meta.getColumnLabel(i), rs.getObject(i));
                     }
@@ -57,18 +57,18 @@ public class PostgresDatabaseManager implements DatabaseConnector<Map<String, Ob
     }
 
     @Override
-    public List<Map<String, Object>> query(String sql, List<Object> params) {
+    public QueryResults query(String sql, List<Object> params) {
         return query(sql, params.toArray());
     }
 
     @Override
-    public Map<String, Object> fetchOne(String sql, Object... params) {
-        List<Map<String, Object>> rows = query(sql, params);
+    public QueryResult fetchOne(String sql, Object... params) {
+        QueryResults rows = query(sql, params);
         return rows.isEmpty() ? null : rows.get(0);
     }
 
     @Override
-    public Map<String, Object> fetchOne(String sql, List<Object> params) {
+    public QueryResult fetchOne(String sql, List<Object> params) {
         return fetchOne(sql, params.toArray());
     }
 

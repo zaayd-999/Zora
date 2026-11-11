@@ -1,0 +1,32 @@
+extend type Query {
+    me: User
+}
+
+type Mutation {
+    register(input: RegisterInput!): AuthPayload!
+    login(input: LoginInput!): AuthPayload!
+}
+
+type User {
+    id: ID!
+    username: String!
+    email: String!
+    createdAt: String!
+}
+
+type AuthPayload {
+    accessToken: String!
+    refreshToken: String!
+    user: User!
+}
+
+input RegisterInput {
+    username: String!
+    email: String!
+    password: String!
+}
+
+input LoginInput {
+    usernameOrEmail: String!
+    password: String!
+}
