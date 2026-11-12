@@ -1,0 +1,48 @@
+$kind: http-request
+url: "{{url}}"
+method: POST
+body:
+  type: graphql
+  content:
+    query: "mutation {\r
+
+      \    login(input: {\r
+
+      \        usernameOrEmail: \"zaaydkaiche@gmail.com\"\r
+
+      \        password: \"password123\"\r
+
+      \    }) {\r
+
+      \        data {\r
+
+      \            accessToken\r
+
+      \            refreshToken\r
+
+      \            user {\r
+
+      \                id\r
+
+      \                username\r
+
+      \                email\r
+
+      \            }\r
+
+      \        }\r
+
+      \r
+
+      \        extras {\r
+
+      \            message\r
+
+      \            code\r
+
+      \        }\r
+
+      \    }\r
+
+      }"
+order: 4000

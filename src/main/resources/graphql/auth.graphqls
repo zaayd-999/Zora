@@ -3,8 +3,11 @@ extend type Query {
 }
 
 type Mutation {
-    register(input: RegisterInput!): AuthPayload!
-    login(input: LoginInput!): AuthPayload!
+    register(input: RegisterInput!): ApiResponseAuth!
+    login(input: LoginInput!): ApiResponseAuth!
+    passwordRecovery(input: PasswordRecoveryInput!): ApiResponseBoolean!
+    verifyResetCode(input: VerifyResetCodeInput!): ApiResponseBoolean!
+    resetPassword(input: ResetPasswordInput!): ApiResponseAuth!
 }
 
 type User {
@@ -20,6 +23,21 @@ type AuthPayload {
     user: User!
 }
 
+type ApiResponseInfo  {
+    message: String!
+    code: String!
+}
+
+type ApiResponseAuth {
+    data: AuthPayload!
+    extras: ApiResponseInfo!
+}
+
+type ApiResponseBoolean {
+    data: Boolean!
+    extras: ApiResponseInfo!
+}
+
 input RegisterInput {
     username: String!
     email: String!
@@ -27,6 +45,20 @@ input RegisterInput {
 }
 
 input LoginInput {
+    usernameOrEmail: String!
+    password: String!
+}
+
+input PasswordRecoveryInput {
+    usernameOrEmail: String!
+}
+
+input VerifyResetCodeInput {
+    usernameOrEmail: String!
+    code: String!
+}
+
+input ResetPasswordInput {
     usernameOrEmail: String!
     password: String!
 }
